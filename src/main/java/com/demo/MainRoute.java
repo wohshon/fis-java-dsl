@@ -25,7 +25,10 @@ public class MainRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 		String name = this.getContext().resolvePropertyPlaceholders("{{camel.springboot.name}}");
-		from("timer:foo?fixedRate=true&period=3000").log("up and running " +name);
+		from("timer:foo?fixedRate=true&period=3000")
+			.setBody().constant(name)
+			.to("direct:foo")
+			.log("up and running " +name);
 		
 	}
 
